@@ -1,0 +1,44 @@
+---
+import brand from '../data/site.json';
+import { withBase } from '../lib/paths';
+
+const { pathname } = Astro.url;
+const normalize = (p: string) => (p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p);
+const currentPath = normalize(pathname);
+
+function isActive(href: string) {
+  return currentPath === normalize(withBase(href));
+}
+---
+
+<header class="sticky top-0 z-40 bg-ink/95 backdrop-blur supports-[backdrop-filter]:bg-ink/80">
+  <div class="mx-auto max-w-[1400px] px-10 lg:px-16 py-2 flex items-center justify-between">
+    <a
+      href={withBase('/')}
+      class="inline-block w-24 h-8 md:w-32 md:h-10"
+      aria-label="Home"
+    ></a>
+
+    <nav aria-label="Primary">
+      <ul class="flex items-center gap-4 md:gap-6">
+        {
+          brand.brand.navTabs.map((tab) => (
+            <li>
+              <a
+                href={withBase(tab.href)}
+                class:list={[
+                  'font-nav font-bold text-sm md:text-base tracking-wide uppercase no-underline transition-opacity',
+                  isActive(tab.href)
+                    ? 'text-accent opacity-100'
+                    : 'text-paper opacity-90 hover:opacity-100 hover:text-accent',
+                ]}
+              >
+                {tab.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

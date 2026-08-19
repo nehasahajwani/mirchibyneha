@@ -1,0 +1,186 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Lightbox from '../components/Lightbox.astro';
+import work from '../data/work.json';
+import { withBase } from '../lib/paths';
+
+let cursor = 0;
+const introImages = work.intro.images.map((img) => ({
+  ...img,
+  src: withBase(img.src),
+  index: cursor++,
+}));
+const items = work.items.map((item) => ({
+  ...item,
+  media: withBase(item.media),
+  poster: item.poster ? withBase(item.poster) : item.poster,
+  index: cursor++,
+}));
+
+const lightboxItems = [
+  ...introImages.map((img) => ({
+    type: 'image',
+    src: img.src,
+    alt: img.alt,
+    title: 'Professional Work',
+    description: work.intro.text,
+  })),
+  ...items.map((item) => ({
+    type: item.type,
+    src: item.media,
+    poster: item.poster,
+    alt: item.alt,
+    title: item.title,
+    meta: item.meta,
+    description: item.description,
+    link: item.link,
+  })),
+];
+---
+
+<BaseLayout title=",by neha — Work">
+  <div class="mx-auto max-w-[1400px] px-10 lg:px-16">
+    <!-- Intro -->
+    <section class="grid grid-cols-1 md:grid-cols-[1fr_minmax(0,420px)] gap-8 md:gap-16 pt-2 pb-20 md:pb-28 items-end">
+      <p class="font-body font-semibold text-lg md:text-xl leading-relaxed order-2 md:order-1">
+        {work.intro.text}
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-1 gap-4 order-1 md:order-2">
+        {introImages.map((img) => (
+          <button
+            type="button"
+            data-lightbox-group="work"
+            data-lightbox-index={img.index}
+            class="relative block w-full overflow-hidden rounded-sm group"
+            aria-label={`Expand ${img.alt}`}
+          >
+            <img src={img.src} alt={img.alt} class="w-full h-40 md:h-56 object-cover" />
+            <span class="absolute inset-0 bg-ink-dark/0 group-hover:bg-ink-dark/40 transition-colors pointer-events-none" />
+          </button>
+        ))}
+      </div>
+    </section>
+  </div>
+
+  <!-- Work items: each is a full-bleed section (alternating background,
+       like the reference template) with its own centered inner column. -->
+  {
+    items.map((item, i) => {
+      const isDark = i % 2 === 1;
+      const isSplit = item.layout?.arrangement === 'split';
+
+      const mediaButton = (
+        <button
+          type="button"
+          data-lightbox-group="work"
+          data-lightbox-index={item.index}
+          class="relative block w-full overflow-hidden rounded-sm group"
+          aria-label={`Expand ${item.title}`}
+        >
+          <img src={item.type === 'video' ? item.poster : item.media} alt={item.alt} class="w-full h-auto" />
+          <span class="absolute inset-0 bg-ink-dark/0 group-hover:bg-ink-dark/40 transition-colors pointer-events-none" />
+          {item.type === 'video' && (
+            <span class="absolute inset-0 flex items-center justify-center">
+              <span class="w-16 h-16 rounded-full bg-ink-dark/70 flex items-center justify-center text-paper text-2xl group-hover:bg-accent/90 transition-colors">
+                &#9658;
+              </span>
+            </span>
+          )}
+        </button>
+      );
+
+      const titleAndDescription = (
+        <>
+          <h2 class="font-body font-bold text-base md:text-lg leading-relaxed mb-3">{item.title}</h2>
+          <p class="font-body text-base md:text-lg leading-relaxed text-paper/90">{item.description}</p>
+        </>
+      );
+
+      const metaTextSize = isSplit ? 'text-base md:text-lg' : 'text-sm md:text-base';
+      const metaAndLink = (
+        <>
+          {item.meta?.map((m) => (
+            <p class:list={[metaTextSize]}>
+              <span class="font-bold">{m.label}:</span> {m.value}
+            </p>
+          ))}
+          {item.link && (
+            <p class:list={[metaTextSize, 'mt-3']}>
+              <a href={item.link.url} target="_blank" rel="noopener noreferrer" class="font-bold">
+                {item.link.label}
+              </a>
+            </p>
+          )}
+        </>
+      );
+
+      // Clarity/Munchi split the meta block off to the opposite side of the
+      // image from the title+description, like the reference template.
+      if (isSplit) {
+        const textSide = item.layout.textSide;
+        const metaSide = item.layout.metaSide;
+
+        return (
+          <section class:list={['py-16 md:py-24 md:min-h-[750px] md:flex md:items-center', isDark ? 'bg-ink-dark' : '']}>
+            <div class="mx-auto max-w-[1400px] px-10 lg:px-16 w-full">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-start">
+                <div
+                  class:list={[
+                    textSide === 'left' ? 'md:order-1 md:text-right' : 'md:order-3 md:text-left',
+                  ]}
+                >
+                  {titleAndDescription}
+                </div>
+                <div class="md:order-2 mx-auto w-full max-w-xs">{mediaButton}</div>
+                <div
+                  class:list={[
+                    metaSide === 'left' ? 'md:order-1 md:text-right' : 'md:order-3 md:text-left',
+                    'mt-4 md:mt-0 md:self-end',
+                  ]}
+                >
+                  {metaAndLink}
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      const imageSide = item.layout?.imageSide ?? (i % 2 === 1 ? 'left' : 'right');
+      const isLarge = item.layout?.imageSize === 'large';
+
+      return (
+        <section class:list={['py-16 md:py-24 md:min-h-[750px] md:flex md:items-center', isDark ? 'bg-ink-dark' : '']}>
+          <div class="mx-auto max-w-[1400px] px-10 lg:px-16 w-full">
+            <div
+              class:list={[
+                'grid grid-cols-1 gap-8 md:gap-16 items-start',
+                isLarge && imageSide === 'left' ? 'md:grid-cols-[1.6fr_1fr]' : '',
+                isLarge && imageSide === 'right' ? 'md:grid-cols-[1fr_1.6fr]' : '',
+                !isLarge ? 'md:grid-cols-2' : '',
+              ]}
+            >
+              <div
+                class:list={[
+                  imageSide === 'right' ? 'md:order-2' : '',
+                  !isLarge && imageSide === 'left' ? 'md:ml-auto md:max-w-md' : '',
+                  !isLarge && imageSide === 'right' ? 'md:max-w-md' : '',
+                  isLarge && item.layout?.imageCompact ? 'md:max-w-lg' : '',
+                ]}
+              >
+                {mediaButton}
+              </div>
+
+              <div class:list={[imageSide === 'right' ? 'text-right' : 'text-left']}>
+                {titleAndDescription}
+                <div class="mt-4">{metaAndLink}</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    })
+  }
+
+  <Lightbox groupId="work" items={lightboxItems} />
+</BaseLayout>

@@ -1,0 +1,32 @@
+{
+  "intro": {
+    "images": [
+      { "src": "/media/video/intro-1.png", "alt": "Camera rig set up outdoors" },
+      { "src": "/media/video/intro-2.png", "alt": "Camera detail" },
+      { "src": "/media/video/intro-3.png", "alt": "Filming with microphone rig" }
+    ],
+    "text": "I capture everyday life and the quiet, authentic moments that make up the world around me. My work leans into a nostalgic, film-like aesthetic, warm tones and soft texture that mirror how memory itself works. As an emerging videographer and editor, I'm still refining my craft, one project at a time."
+  },
+  "items": [
+    {
+      "id": "paris-2025",
+      "title": "Paris 2025",
+      "video": "/media/video/paris-2025.mp4",
+      "poster": "/media/video/paris-2025-poster.jpg",
+      "caption": "Paris, 2025",
+      "description": "A 3 minutes and 14 seconds ode to a city that called, inspired, and left me awestruck, a once in a lifetime chance to experience Paris in my 20s. Deliberate handheld camcorder effect on mirrorless, blending high-quality footage with nostalgia.",
+      "filming": "Canon EOS M50",
+      "software": "Edited, mixed, and captioned on VN"
+    },
+    {
+      "id": "phytclub-wiki-freeze-25",
+      "title": "PhytClub iGEM Wiki Freeze '25",
+      "video": "/media/video/wiki-freeze.mp4",
+      "poster": "/media/video/wiki-freeze-poster.jpg",
+      "caption": "32 minutes till wiki freeze",
+      "description": "Recording moments before the awaited wiki freeze for iGEM 2025, an international SynBio competition. A room buzzing with anticipation for the wait to finally be over. A whole year's hard work, making or breaking in the final seconds.",
+      "filming": "Canon EOS M50",
+      "software": "Edited, mixed, and captioned on VN"
+    }
+  ]
+}

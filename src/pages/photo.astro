@@ -1,0 +1,151 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Lightbox from '../components/Lightbox.astro';
+import photo from '../data/photo.json';
+import { withBase } from '../lib/paths';
+
+// Build one flat, page-scoped list of lightbox items in DOM order:
+// intro image, then every gallery image, gallery by gallery.
+let cursor = 0;
+const introIndex = cursor++;
+const introImageSrc = withBase(photo.intro.image);
+
+const galleries = photo.galleries.map((gallery) => {
+  const images = gallery.images.map((image) => ({
+    ...image,
+    src: withBase(image.src),
+    index: cursor++,
+  }));
+
+  const layout = gallery.layout ?? {};
+  const infoIndex = layout.infoIndex ?? Math.min(images.length, 3);
+  const descriptionIndex = layout.descriptionIndex ?? images.length;
+  const descriptionSpan = layout.descriptionSpan ?? 3;
+  const infoRowSpan = layout.infoRowSpan ?? 1;
+
+  // Interleave the info card + description paragraph into the image
+  // sequence so they land in the grid the same way the reference
+  // template does, rather than as a separate block below all photos.
+  // When the info card sits alone in column 1 (infoRowSpan 2), it
+  // reserves that cell in the row below it too, so auto-placement
+  // pushes the next row's images into columns 2-3 instead of column 1.
+  const cells: Array<{ type: 'image' | 'info' | 'description' } & Record<string, any>> = [];
+  images.forEach((image, i) => {
+    if (i === infoIndex) cells.push({ type: 'info', rowSpan: infoRowSpan });
+    if (i === descriptionIndex) cells.push({ type: 'description' });
+    cells.push({ type: 'image', ...image });
+  });
+  if (infoIndex >= images.length) cells.push({ type: 'info', rowSpan: infoRowSpan });
+  if (descriptionIndex >= images.length) cells.push({ type: 'description' });
+
+  return { ...gallery, images, cells, descriptionSpan };
+});
+
+const lightboxItems = [
+  {
+    type: 'image',
+    src: introImageSrc,
+    alt: photo.intro.alt,
+    title: 'Photography',
+    description: photo.intro.text,
+  },
+  ...galleries.flatMap((gallery) =>
+    gallery.images.map((image) => ({
+      type: 'image',
+      src: image.src,
+      alt: image.alt,
+      title: gallery.title,
+      caption: image.alt,
+      meta: [
+        { label: 'Photography', value: gallery.equipment },
+        { label: 'Software', value: gallery.software },
+      ],
+      description: gallery.description,
+    }))
+  ),
+];
+---
+
+<BaseLayout title=",by neha — Photo">
+  <div class="mx-auto max-w-[1400px] px-10 lg:px-16">
+    <!-- Intro -->
+    <section class="grid grid-cols-1 md:grid-cols-[minmax(0,480px)_1fr] gap-8 md:gap-16 pt-2 pb-20 md:pb-28 items-start">
+      <button
+        type="button"
+        data-lightbox-group="photo"
+        data-lightbox-index={introIndex}
+        class="relative block w-full overflow-hidden rounded-sm group"
+        aria-label={`Expand ${photo.intro.alt}`}
+      >
+        <img
+          src={introImageSrc}
+          alt={photo.intro.alt}
+          class="w-full h-[260px] md:h-[340px] object-cover"
+        />
+        <span class="absolute inset-0 bg-ink-dark/0 group-hover:bg-ink-dark/40 transition-colors pointer-events-none" />
+      </button>
+      <p class="font-body font-semibold text-base md:text-lg leading-relaxed">
+        {photo.intro.text}
+      </p>
+    </section>
+
+    <!-- Galleries -->
+    {
+      galleries.map((gallery) => (
+        <section class="pb-24 md:pb-32">
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {gallery.cells.map((cell) => {
+              if (cell.type === 'image') {
+                return (
+                  <button
+                    type="button"
+                    data-lightbox-group="photo"
+                    data-lightbox-index={cell.index}
+                    class="relative block w-full overflow-hidden rounded-sm group"
+                    aria-label={`Expand ${cell.alt}`}
+                  >
+                    <img
+                      src={cell.src}
+                      alt={cell.alt}
+                      loading="lazy"
+                      class="w-full h-auto object-cover"
+                    />
+                    <span class="absolute inset-0 bg-ink-dark/0 group-hover:bg-ink-dark/40 transition-colors pointer-events-none" />
+                  </button>
+                );
+              }
+
+              if (cell.type === 'info') {
+                return (
+                  <div class:list={['col-span-2 md:col-span-1', cell.rowSpan >= 2 ? 'md:row-span-2' : '']}>
+                    <h2 class="font-body font-bold text-sm md:text-base leading-relaxed mb-3">{gallery.title}</h2>
+                    <p class="text-xs md:text-sm font-bold text-paper/80 leading-relaxed mb-3">{gallery.captionList}</p>
+                    <p class="text-xs md:text-sm">
+                      <span class="font-bold">Photography:</span> {gallery.equipment}
+                    </p>
+                    <p class="text-xs md:text-sm">
+                      <span class="font-bold">Software:</span> {gallery.software}
+                    </p>
+                  </div>
+                );
+              }
+
+              return (
+                <p
+                  class:list={[
+                    'font-body text-sm md:text-base leading-relaxed text-paper/90 col-span-2',
+                    gallery.descriptionSpan >= 3 ? 'md:col-span-3' : 'md:col-span-2',
+                  ]}
+                >
+                  {gallery.description}
+                </p>
+              );
+            })}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <Lightbox groupId="photo" items={lightboxItems} />
+</BaseLayout>

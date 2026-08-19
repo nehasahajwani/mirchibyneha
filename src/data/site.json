@@ -1,0 +1,14 @@
+{
+  "brand": {
+    "logoText": ",by neha",
+    "navTabs": [
+      { "label": "Photo", "href": "/photo" },
+      { "label": "Video", "href": "/video" },
+      { "label": "Work", "href": "/work" }
+    ]
+  },
+  "contact": {
+    "email": "",
+    "socials": []
+  }
+}

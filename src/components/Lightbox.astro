@@ -1,0 +1,190 @@
+---
+// Reusable per-page lightbox gallery.
+// `groupId` scopes this lightbox to the media on the current page only —
+// arrow navigation never crosses between Photo / Video / Work pages.
+//
+// `items` shape:
+// {
+//   type: 'image' | 'video',
+//   src: string,
+//   poster?: string,        // video poster frame
+//   alt: string,
+//   title?: string,
+//   caption?: string,
+//   description?: string,
+//   meta?: { label: string, value: string }[],
+//   link?: { label: string, url: string },
+// }[]
+
+interface LightboxItem {
+  type: 'image' | 'video';
+  src: string;
+  poster?: string;
+  alt: string;
+  title?: string;
+  caption?: string;
+  description?: string;
+  meta?: { label: string; value: string }[];
+  link?: { label: string; url: string };
+}
+
+interface Props {
+  groupId: string;
+  items: LightboxItem[];
+}
+
+const { groupId, items } = Astro.props;
+---
+
+<script type="application/json" id={`lightbox-data-${groupId}`} set:html={JSON.stringify(items)} />
+
+<div
+  id={`lightbox-${groupId}`}
+  class="lightbox fixed inset-0 z-[100] hidden"
+  data-group={groupId}
+  role="dialog"
+  aria-modal="true"
+  aria-hidden="true"
+>
+  <div class="lightbox-backdrop absolute inset-0 bg-ink-dark/95"></div>
+
+  <button
+    type="button"
+    class="lightbox-close absolute top-5 right-5 md:top-8 md:right-10 z-10 text-paper font-nav text-3xl leading-none w-11 h-11 flex items-center justify-center rounded-full hover:text-accent transition-colors"
+    aria-label="Close"
+  >
+    &times;
+  </button>
+
+  <button
+    type="button"
+    class="lightbox-prev absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-10 text-paper text-4xl md:text-5xl leading-none w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full hover:text-accent transition-colors"
+    aria-label="Previous"
+  >
+    &#8249;
+  </button>
+
+  <button
+    type="button"
+    class="lightbox-next absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-10 text-paper text-4xl md:text-5xl leading-none w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full hover:text-accent transition-colors"
+    aria-label="Next"
+  >
+    &#8250;
+  </button>
+
+  <div class="relative z-[5] h-full w-full flex items-center justify-center px-16 md:px-24 py-10 md:py-14">
+    <div class="flex flex-col md:flex-row items-center md:items-stretch gap-4 md:gap-6 w-full h-full max-w-[1400px] mx-auto">
+      <div class="lightbox-media flex-1 min-w-0 h-full flex items-center justify-center overflow-hidden">
+        <!-- media injected here by script -->
+      </div>
+
+      <aside class="lightbox-caption w-full md:w-[220px] shrink-0 max-h-32 md:max-h-full overflow-y-auto no-scrollbar text-[10px] md:text-[11px] leading-relaxed font-body text-paper/90">
+        <!-- caption injected here by script -->
+      </aside>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ groupId }}>
+  (function () {
+    const root = document.getElementById(`lightbox-${groupId}`);
+    if (!root) return;
+
+    const dataEl = document.getElementById(`lightbox-data-${groupId}`);
+    const items = JSON.parse(dataEl?.textContent || '[]');
+
+    const mediaWrap = root.querySelector('.lightbox-media');
+    const captionWrap = root.querySelector('.lightbox-caption');
+    const closeBtn = root.querySelector('.lightbox-close');
+    const prevBtn = root.querySelector('.lightbox-prev');
+    const nextBtn = root.querySelector('.lightbox-next');
+    const backdrop = root.querySelector('.lightbox-backdrop');
+
+    let currentIndex = 0;
+    let isOpen = false;
+
+    function renderMedia(index) {
+      const item = items[index];
+      if (!item) return;
+      mediaWrap.innerHTML = '';
+
+      if (item.type === 'video') {
+        const video = document.createElement('video');
+        video.src = item.src;
+        if (item.poster) video.poster = item.poster;
+        video.controls = true;
+        video.playsInline = true;
+        video.className = 'max-h-full max-w-full object-contain';
+        mediaWrap.appendChild(video);
+      } else {
+        const img = document.createElement('img');
+        img.src = item.src;
+        img.alt = item.alt || '';
+        img.className = 'max-h-full max-w-full object-contain';
+        mediaWrap.appendChild(img);
+      }
+
+      const metaHtml = (item.meta || [])
+        .map(
+          (m) =>
+            `<p class="mb-1.5"><span class="text-accent">${m.label}:</span> ${m.value}</p>`
+        )
+        .join('');
+
+      const linkHtml = item.link
+        ? `<p class="mt-2"><a href="${item.link.url}" target="_blank" rel="noopener noreferrer" class="underline">${item.link.label}</a></p>`
+        : '';
+
+      captionWrap.innerHTML = `
+        ${item.title ? `<p class="font-display italic text-xs md:text-sm mb-1.5 text-paper">${item.title}</p>` : ''}
+        ${item.caption ? `<p class="mb-1.5 text-paper/80">${item.caption}</p>` : ''}
+        ${metaHtml}
+        ${item.description ? `<p class="mt-1.5 text-paper/70">${item.description}</p>` : ''}
+        ${linkHtml}
+        <p class="mt-2 text-paper/50">${index + 1} / ${items.length}</p>
+      `;
+    }
+
+    function open(index) {
+      currentIndex = index;
+      renderMedia(currentIndex);
+      root.classList.remove('hidden');
+      root.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      isOpen = true;
+    }
+
+    function close() {
+      root.classList.add('hidden');
+      root.setAttribute('aria-hidden', 'true');
+      mediaWrap.innerHTML = '';
+      document.body.style.overflow = '';
+      isOpen = false;
+    }
+
+    function show(index) {
+      const total = items.length;
+      currentIndex = ((index % total) + total) % total;
+      renderMedia(currentIndex);
+    }
+
+    closeBtn.addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+    prevBtn.addEventListener('click', () => show(currentIndex - 1));
+    nextBtn.addEventListener('click', () => show(currentIndex + 1));
+
+    document.addEventListener('keydown', (e) => {
+      if (!isOpen) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') show(currentIndex - 1);
+      if (e.key === 'ArrowRight') show(currentIndex + 1);
+    });
+
+    document.querySelectorAll(`[data-lightbox-group="${groupId}"]`).forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const index = parseInt(trigger.getAttribute('data-lightbox-index') || '0', 10);
+        open(index);
+      });
+    });
+  })();
+</script>

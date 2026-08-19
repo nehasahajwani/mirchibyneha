@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Lightbox from '../components/Lightbox.astro';
+import video from '../data/video.json';
+import { withBase } from '../lib/paths';
+
+let cursor = 0;
+const introImages = video.intro.images.map((img) => ({
+  ...img,
+  src: withBase(img.src),
+  index: cursor++,
+}));
+const items = video.items.map((item) => ({
+  ...item,
+  video: withBase(item.video),
+  poster: withBase(item.poster),
+  index: cursor++,
+}));
+
+const lightboxItems = [
+  ...introImages.map((img) => ({
+    type: 'image',
+    src: img.src,
+    alt: img.alt,
+    title: 'Videography',
+    description: video.intro.text,
+  })),
+  ...items.map((item) => ({
+    type: 'video',
+    src: item.video,
+    poster: item.poster,
+    alt: item.title,
+    title: item.title,
+    caption: item.caption,
+    meta: [
+      { label: 'Filming', value: item.filming },
+      { label: 'Software', value: item.software },
+    ],
+    description: item.description,
+  })),
+];
+---
+
+<BaseLayout title=",by neha — Video">
+  <div class="mx-auto max-w-[1400px] px-10 lg:px-16">
+    <!-- Intro -->
+    <section class="grid grid-cols-1 md:grid-cols-[1fr_1.35fr] gap-8 md:gap-16 pt-6 md:pt-10 pb-20 md:pb-28 items-start">
+      <p class="font-body font-semibold text-base md:text-lg leading-relaxed order-2 md:order-1">
+        {video.intro.text}
+      </p>
+      <div class="grid grid-cols-3 gap-3 order-1 md:order-2">
+        {introImages.map((img) => (
+          <button
+            type="button"
+            data-lightbox-group="video"
+            data-lightbox-index={img.index}
+            class="relative block w-full overflow-hidden rounded-sm group"
+            aria-label={`Expand ${img.alt}`}
+          >
+            <img src={img.src} alt={img.alt} class="w-full h-40 md:h-96 object-cover" />
+            <span class="absolute inset-0 bg-ink-dark/0 group-hover:bg-ink-dark/40 transition-colors pointer-events-none" />
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <!-- Video entries -->
+    {
+      items.map((item, i) => {
+        const imageSide = i % 2 === 1 ? 'left' : 'right';
+        return (
+        <section class="pb-24 md:pb-32">
+          <div
+            class:list={[
+              'grid grid-cols-1 gap-8 md:gap-16 items-start',
+              imageSide === 'left' ? 'md:grid-cols-[1fr_1.6fr]' : 'md:grid-cols-[1.6fr_1fr]',
+            ]}
+          >
+            <div class:list={[i % 2 === 1 ? 'md:order-2' : '']}>
+              <button
+                type="button"
+                data-lightbox-group="video"
+                data-lightbox-index={item.index}
+                class="relative block w-full overflow-hidden rounded-sm group"
+                aria-label={`Play ${item.title}`}
+              >
+                <img
+                  src={item.poster}
+                  alt={item.title}
+                  class="w-full h-[300px] md:h-[420px] object-cover"
+                />
+                <span class="absolute inset-0 bg-ink-dark/0 group-hover:bg-ink-dark/40 transition-colors pointer-events-none" />
+                <span class="absolute inset-0 flex items-center justify-center">
+                  <span class="w-16 h-16 rounded-full bg-ink-dark/70 flex items-center justify-center text-paper text-2xl group-hover:bg-accent/90 transition-colors">
+                    &#9658;
+                  </span>
+                </span>
+              </button>
+            </div>
+
+            <div class:list={[i % 2 === 1 ? 'md:order-1' : '']}>
+              <h2 class="font-body font-bold text-sm md:text-base leading-relaxed mb-3">{item.title}</h2>
+              <p class="font-body text-sm md:text-base leading-relaxed text-paper/90 mb-4">
+                {item.description}
+              </p>
+              <p class="text-xs md:text-sm">
+                <span class="font-bold">Filming:</span> {item.filming}
+              </p>
+              <p class="text-xs md:text-sm">
+                <span class="font-bold">Software:</span> {item.software}
+              </p>
+            </div>
+          </div>
+        </section>
+        );
+      })
+    }
+  </div>
+
+  <Lightbox groupId="video" items={lightboxItems} />
+</BaseLayout>

@@ -1,0 +1,56 @@
+{
+  "intro": {
+    "image": "/media/photo/intro.png",
+    "alt": "Neha holding a Canon DSLR outdoors",
+    "text": "I shoot primarily on a DSLR, with an ongoing exploration into film photography. My images lean toward soft, warm tones, with close attention to lighting and perspective, edited using Lightroom and Snapseed. Photography was where I first began, learning to see and capture the world in stills before moving into video."
+  },
+  "galleries": [
+    {
+      "id": "bombay-26",
+      "title": "Bombay '26",
+      "captionList": "[L-R, T-B] 1. Ideal Corner, Fort Mumbai 2. City of Cats 3. Bombay at Night - Arial View 4. Rajbai Clock Tower 5. Dadar Flower Market 6. Kaali-Peeli Taxis at Taj",
+      "equipment": "Canon EOS M50",
+      "software": "Lightroom, Snapseed",
+      "description": "Mumbai, India's City of Dreams, is a place that never rests, a city that has artfully preserved its colonial architecture while evolving at sonic speed. Its restless energy lives in the sea of Kaali-Peeli taxis outside the Gateway, and in the fragrant, colourful chaos of Dadar's flower market at 5 AM. Yet even this city finds its quiet moments in iconic Parsi food, sunsets at the Fort, or the cats that seem to rule its streets. Mumbai is pure hustle, yet holds its many cultures together with ease. My time there left me changed, hungrier to see, experience, and get more from life.",
+      "layout": { "infoIndex": 3, "descriptionIndex": 5, "descriptionSpan": 2 },
+      "images": [
+        { "src": "/media/photo/bombay-26/1.jpg", "alt": "Ideal Corner, Fort Mumbai" },
+        { "src": "/media/photo/bombay-26/2.jpg", "alt": "City of Cats" },
+        { "src": "/media/photo/bombay-26/3.jpg", "alt": "Bombay at Night - Arial View" },
+        { "src": "/media/photo/bombay-26/4.jpg", "alt": "Rajbai Clock Tower" },
+        { "src": "/media/photo/bombay-26/5.jpg", "alt": "Dadar Flower Market" },
+        { "src": "/media/photo/bombay-26/6.jpg", "alt": "Kaali-Peeli Taxis at Taj" }
+      ]
+    },
+    {
+      "id": "paris-at-night",
+      "title": "Paris at Night",
+      "captionList": "[L-R, T-B] 1. Jazz club: Le Caveau de la Huchette 2. Eiffel 3. Louvre at night 4. Across the Seine",
+      "equipment": "Canon EOS M50",
+      "software": "Lightroom, Snapseed",
+      "description": "Late October to early November, autumn air, warm lights, art and music. Paris was a dream. Breathing in the chilled air and feeling free to the fullest. Nights involve walking the yellow-lit streets, experiencing great art in the most renowned museums, dancing at jazz clubs, and walking along the Seine, a three-euro grocery-store wine in hand. At Le Caveau de la Huchette, the night began at 10 P.M. with saxophones and trombones and ended at 2 A.M. with us walking back to our cosy hotel room, faces freezing, feet tired from dancing, and our souls full of music and memories we'll never forget.",
+      "layout": { "infoIndex": 2, "descriptionIndex": 4, "descriptionSpan": 3 },
+      "images": [
+        { "src": "/media/photo/paris-at-night/1.jpg", "alt": "Jazz club: Le Caveau de la Huchette" },
+        { "src": "/media/photo/paris-at-night/2.jpg", "alt": "Eiffel Tower at night" },
+        { "src": "/media/photo/paris-at-night/3.jpg", "alt": "Louvre at night" },
+        { "src": "/media/photo/paris-at-night/4.jpg", "alt": "Across the Seine" }
+      ]
+    },
+    {
+      "id": "paris-in-daylight",
+      "title": "Paris in Daylight",
+      "captionList": "[L-R, T-B] 1. Streets of Marais 2. Art at Orangerie 3. Vintage Fashion Store 4. Latin Quarter, featuring a pink building.",
+      "equipment": "Canon EOS M50",
+      "software": "Lightroom, Snapseed",
+      "description": "Paris at heart is a city of beauty. From residential buildings to stores and offices, the city displays art and beauty. The dominant Haussmannian-style architecture makes Paris a permanent movie set. Unfortunately, for me, as with most of the world, Paris will always be romanticised. Art is integrated into the life of Parisians from a young age, it is ensured that they experience music, art and architecture. The collection of photos above displays shades of pink and nude tones bathed in sunlight. The effect sunlight can have on a colour is one of the most fascinating aspects of design and nature. Colours begin to glow in ways one will not see anywhere else, and contrasting shadows can elevate the already glowing sunlit colours. Paris displayed effects of lighting and colour theory so naturally and without fault.",
+      "layout": { "infoIndex": 0, "descriptionIndex": 4, "descriptionSpan": 3, "infoRowSpan": 2 },
+      "images": [
+        { "src": "/media/photo/paris-in-daylight/1.jpg", "alt": "Streets of Marais" },
+        { "src": "/media/photo/paris-in-daylight/2.jpg", "alt": "Art at Orangerie" },
+        { "src": "/media/photo/paris-in-daylight/3.jpg", "alt": "Vintage Fashion Store" },
+        { "src": "/media/photo/paris-in-daylight/4.jpg", "alt": "Latin Quarter, featuring a pink building" }
+      ]
+    }
+  ]
+}

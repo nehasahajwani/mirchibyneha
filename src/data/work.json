@@ -1,0 +1,82 @@
+{
+  "intro": {
+    "images": [
+      { "src": "/media/work/intro-1.png", "alt": "PhytClub team at iGEM 2025" },
+      { "src": "/media/work/intro-2.png", "alt": "Working on PhytClub visual assets" }
+    ],
+    "text": "I was part of the MIT-MAHE team that competed in iGEM 2025, an international synthetic biology competition and forum where teams from around the world develop meaningful solutions to real-world problems. On our project, PhytClub, I worked across research, visual design, and marketing. The role opened up new creative avenues for me, from hand-drawn animation to scientific illustration and writing. A key part of the visual identity involved weaving my Indian culture into the brand while keeping the science clear and accessible."
+  },
+  "items": [
+    {
+      "id": "postcard-from-manipal",
+      "title": "Postcard from Manipal",
+      "type": "image",
+      "media": "/media/work/postcard.jpg",
+      "alt": "Postcard from Manipal, PhytClub MIT-MAHE 2025",
+      "description": "Digitally designed postcard, created as merch for MIT-MAHE's iGEM '25. The centrepiece features original photography of a landmark temple from Manipal, the team's home city, celebrating Indian heritage through design.",
+      "meta": [
+        { "label": "Photography", "value": "Canon EOS M50" },
+        { "label": "Software", "value": "Canva" }
+      ],
+      "layout": { "imageSide": "right", "imageSize": "large" }
+    },
+    {
+      "id": "clarity-by-design",
+      "title": "Clarity by Design: A guide to project graphics",
+      "type": "image",
+      "media": "/media/work/clarity-by-design.png",
+      "alt": "Clarity by Design book cover",
+      "description": "Independently written and designed, exploring how visual clarity strengthens scientific communication, created as a contribution to MIT-MAHE's iGEM '25. While working on the branding and visual direction of the project, our team lacked guidance on designing the wiki, scientific illustrations for protocols and diagrams, presentations, and other visual assets, all while trying to keep them cohesive and visually engaging. This guide addresses that gap by offering clear design guidance and examples, including the complete set of fonts and colour palettes used by the team. Structured around my own experience and understanding of design, it serves as a practical reference for translating scientific work into compelling visuals.",
+      "meta": [
+        { "label": "Designed On", "value": "Canva" }
+      ],
+      "link": {
+        "label": "Access the full book",
+        "url": "https://2025.igem.wiki/mit-mahe/contribution"
+      },
+      "layout": { "arrangement": "split", "textSide": "left", "metaSide": "right" }
+    },
+    {
+      "id": "munchi",
+      "title": "Munchi: A Collection of Recipes Starring Black Pepper",
+      "type": "image",
+      "media": "/media/work/munchi.png",
+      "alt": "Munchi recipe book cover",
+      "description": "Munchi (Black Pepper in Tulu) is a recipe book featuring dishes from across India that star the spice. The cover features hand-painted, traditionally inspired tile artwork, scanned and digitally composited to draw on Indian heritage in its visual identity. The recipes are authentic from Indian households. From concept to final layout, every element, assembly, design, and formatting was independently developed.",
+      "meta": [
+        { "label": "Designed and Formatted On", "value": "Canva" },
+        { "label": "Cover Art", "value": "Hand-painted using watercolour, photographed on Canon EOS M50, edited on Lightroom" }
+      ],
+      "link": {
+        "label": "Access the full book",
+        "url": "https://2025.igem.wiki/mit-mahe/contribu"
+      },
+      "layout": { "arrangement": "split", "textSide": "right", "metaSide": "left" }
+    },
+    {
+      "id": "kaalumenasu",
+      "title": "Kaalumenasu: Mascot of PhytClub, MIT-MAHE '25",
+      "type": "image",
+      "media": "/media/work/kaalumenasu.png",
+      "alt": "Kaalumenasu mascot illustration",
+      "description": "Kaalumenasu is the mascot of PhytClub 2025, a common hill myna found in black pepper plantations, the crop our project targeted to protect. Her name translates to \"Black Pepper\" from Kannada, the language of our origin city. She is the face of our project, appearing in our wiki, all our presentations, stickers and in the form of a plushie we kept at our booth at the competition. The mascot was conceptualised and hand-drawn independently.",
+      "meta": [
+        { "label": "Illustrated On", "value": "Procreate" }
+      ],
+      "layout": { "imageSide": "right", "imageSize": "large", "imageCompact": true }
+    },
+    {
+      "id": "dna-fingerprinting",
+      "title": "Animation: DNA Fingerprinting",
+      "type": "video",
+      "media": "/media/work/dna-fingerprinting.mp4",
+      "poster": "/media/work/dna-fingerprinting-poster.jpg",
+      "alt": "DNA Fingerprinting animation",
+      "description": "To raise awareness of Synthetic Biology and what it entails, our team developed several educational tools. The animation shown explains a key concept of Biotechnology: DNA fingerprinting, in an engaging manner. The animation was conceptualised and developed independently using Procreate, a software available on iOS.",
+      "meta": [
+        { "label": "Animated On", "value": "Procreate" }
+      ],
+      "layout": { "imageSide": "left", "imageSize": "large" }
+    }
+  ]
+}

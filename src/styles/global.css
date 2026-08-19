@@ -1,0 +1,49 @@
+/* Self-hosted fonts (no external network calls at runtime) */
+@import '@fontsource/lora/400.css';
+@import '@fontsource/lora/500.css';
+@import '@fontsource/lora/400-italic.css';
+@import '@fontsource/lora/500-italic.css';
+
+@import '@fontsource/nunito-sans/400.css';
+@import '@fontsource/nunito-sans/600.css';
+@import '@fontsource/nunito-sans/700.css';
+
+@import '@fontsource/roboto/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ink text-paper font-body antialiased;
+  }
+
+  ::selection {
+    background-color: theme('colors.accent');
+    color: theme('colors.paper');
+  }
+
+  a {
+    @apply text-accent transition-colors duration-150;
+  }
+
+  a:hover {
+    @apply opacity-80;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar for the lightbox filmstrip / caption panel if it overflows */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
