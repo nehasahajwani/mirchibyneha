@@ -15,9 +15,15 @@ function isActive(href: string) {
   <div class="mx-auto max-w-[1400px] px-10 lg:px-16 py-2 flex items-center justify-between">
     <a
       href={withBase('/')}
-      class="inline-block w-24 h-8 md:w-32 md:h-10"
+      class="inline-block h-10 w-10 md:h-12 md:w-12"
       aria-label="Home"
-    ></a>
+    >
+      <img
+        src={withBase('/logo.png')}
+        alt=""
+        class="h-full w-full object-contain"
+      />
+    </a>
 
     <nav aria-label="Primary">
       <ul class="flex items-center gap-4 md:gap-6">
